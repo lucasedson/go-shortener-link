@@ -17,9 +17,18 @@ func CreateLink(c *gin.Context) {
 		return
 	}
 
+	var formatedUrl string
+
+	if requestBody.Url[:4] != "http" && requestBody.Url[:5] != "https" {
+		formatedUrl = "https://" + requestBody.Url
+	} else {
+		formatedUrl = requestBody.Url
+	}
+
 	hash := sha256.Sum256([]byte(requestBody.Url))
 	base64Hash := base64.URLEncoding.EncodeToString(hash[:8])
-	data := schemas.Link{Url: requestBody.Url, ShortLink: "http://localhost:8080/" + base64Hash}
+	data := schemas.Link{Url: formatedUrl, ShortLink: c.Request.Host + "/" + base64Hash}
+
 	config.GetDB().Create(&data)
 
 	c.JSON(200, gin.H{"message": "success", "data": data.ShortLink})
