@@ -5,7 +5,7 @@ A simple Link shortening Rest API
 ## Installation
 
 ```bash
-go get -u github.com/luizalabs/go-shortener-link
+go get -u github.com/lucasedson/go-shortener-link
 ```
 
 ## Usage
